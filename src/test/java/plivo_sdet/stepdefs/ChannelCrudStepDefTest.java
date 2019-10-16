@@ -71,7 +71,6 @@ public class ChannelCrudStepDefTest<T> {
 
 	@Then("^I List all Channels via \"([^\"]*)\" method$")
 	public void i_List_all_Channels_via_method(String method) throws InterruptedException {
-		Thread.sleep(5000);
 		response = apiClient.makeGetRequest(method);
 		jsonPath = response.jsonPath();
 		ApiLogger.logInfo("List Channel Response :: {} "+response.asString());
