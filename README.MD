@@ -3,7 +3,7 @@
 
 This is a small API test framework using RestAssured and Cucumber to Automate the Slack API's.
 
-[![Build Status](https://travis-ci.org/Gaurav-Shankar/slack-api-automation.svg?branch=master)](https://github.com/Gaurav-Shankar/slack-api-automation)
+[![Build Status](https://travis-ci.org/Gaurav-Shankar/slack-api-automation.svg?branch=master)](https://travis-ci.org/Gaurav-Shankar/slack-api-automation)
 
 ## Framework
 
@@ -34,6 +34,7 @@ git clone git@github.com:Gaurav-Shankar/slack-api-automation.git
  ```bash
 cd slack-api-automation
 ```
+# Before running the tests please open the project.properties file and add you slack token. The one in the file is revoked.
 3. Run the following maven command to execute the tests.
 ```bash
 mvn test
