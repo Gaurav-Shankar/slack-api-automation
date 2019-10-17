@@ -64,12 +64,6 @@
 			<artifactId>cucumber-reporting</artifactId>
 			<version>4.8.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.9.8</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
