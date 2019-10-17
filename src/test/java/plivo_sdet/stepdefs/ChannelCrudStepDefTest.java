@@ -33,7 +33,6 @@ public class ChannelCrudStepDefTest<T> {
 	public void setUp() {
 		apiClient =  new ApiClient();
 		channelUtils =  new ChannelUtils();
-		apiClient.init();
 		channel = channelUtils.createChannelPayload();
 		faker =  new Faker();
 	}

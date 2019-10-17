@@ -19,17 +19,15 @@ public class ApiClient {
 				.baseUri(propertyUtils.getBaseUrl());
 		return requestSpecification;
 	}
-	
-	public void init() {
-		requestSpecification = getAuthenticatedRequestHandle();
-	}
 
 	public Response makeGetRequest(String endPoint) {
+		requestSpecification = getAuthenticatedRequestHandle();
 		ApiLogger.logInfo("Preparing get request with endPoint as ::{} "+endPoint);
 		return requestSpecification.get(endPoint);
 	}
 
 	public Response makePostRequest(String endPoint, String payLoad) {
+		requestSpecification = getAuthenticatedRequestHandle();
 		ApiLogger.logInfo("Preparing payload as ::{} "+payLoad);
 		requestSpecification.body(payLoad);
 		ApiLogger.logInfo("Making post with endPoint as ::{} "+endPoint);
