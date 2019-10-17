@@ -8,7 +8,6 @@ import org.testng.Assert;
 
 import com.github.javafaker.Faker;
 
-import cucumber.api.Scenario;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -19,18 +18,20 @@ import plivo_sdet.logger.ApiLogger;
 import plivo_sdet.mockdatagenerators.Channel;
 import plivo_sdet.mockdatagenerators.ChannelUtils;
 
-public class ChannelCrudStepDefTest<T> extends ApiClient{
+public class ChannelCrudStepDefTest<T> {
 
-	ChannelUtils channelUtils;
-	JsonPath jsonPath;
-	Channel channel;
-	Faker faker;
-	String channelPayload;
-	Response response;
-	List<Map<String, T>> channelsList;
+	private ApiClient apiClient;
+	private ChannelUtils channelUtils;
+	private JsonPath jsonPath;
+	private Channel channel;
+	private Faker faker;
+	private String channelPayload;
+	private Response response;
+	private List<Map<String, T>> channelsList;
 
 	@Before
-	public void setUp(Scenario scenario) {
+	public void setUp() {
+		apiClient =  new ApiClient();
 		channelUtils =  new ChannelUtils();
 		channel = channelUtils.createChannelPayload();
 		faker =  new Faker();
@@ -39,7 +40,7 @@ public class ChannelCrudStepDefTest<T> extends ApiClient{
 	@Given("^I create a new Channel via \"([^\"]*)\" method$")
 	public void i_create_a_new_Channel_via_method(String method)  {
 		channelPayload = channelUtils.prepareChannelPayload(channel);
-		response = makePostRequest(method,channelPayload);
+		response = apiClient.makePostRequest(method,channelPayload);
 		jsonPath = response.jsonPath();
 		ApiLogger.logInfo("Create Channel Response :: {} "+response.asString());
 		Assert.assertEquals(response.statusCode(), 200);
@@ -48,7 +49,7 @@ public class ChannelCrudStepDefTest<T> extends ApiClient{
 
 	@Given("^I Join the newly created Channel via \"([^\"]*)\" method$")
 	public void i_Join_the_newly_created_Channel_via_method(String method) {
-		response = makePostRequest(method,channelPayload);
+		response = apiClient.makePostRequest(method,channelPayload);
 		jsonPath = response.jsonPath();
 		ApiLogger.logInfo("Join Channel Response :: {} "+response.asString());
 		channel.setChannel(jsonPath.getString("channel.id"));
@@ -61,15 +62,15 @@ public class ChannelCrudStepDefTest<T> extends ApiClient{
 		channel.setName(faker.name().firstName().toLowerCase());
 		//Modify the pay load with new channel name
 		channelPayload = channelUtils.prepareChannelPayload(channel);
-		response = makePostRequest(method,channelPayload);
+		response = apiClient.makePostRequest(method,channelPayload);
 		jsonPath = response.jsonPath();
 		ApiLogger.logInfo("Rename Channel Response :: {} "+response.asString());
 		Assert.assertEquals(response.statusCode(), 200);
 	}
 
 	@Then("^I List all Channels via \"([^\"]*)\" method$")
-	public void i_List_all_Channels_via_method(String method) {
-		response = makeGetRequest(method);
+	public void i_List_all_Channels_via_method(String method) throws InterruptedException {
+		response = apiClient.makeGetRequest(method);
 		jsonPath = response.jsonPath();
 		ApiLogger.logInfo("List Channel Response :: {} "+response.asString());
 		channelsList = jsonPath.getList("channels");
@@ -88,7 +89,7 @@ public class ChannelCrudStepDefTest<T> extends ApiClient{
 
 	@Then("^I Archive the Channel via \"([^\"]*)\" method$")
 	public void i_Archive_the_Channel_via_method(String method) {
-		response = makePostRequest(method,channelPayload);
+		response = apiClient.makePostRequest(method,channelPayload);
 		jsonPath = response.jsonPath();
 		ApiLogger.logInfo("Archive Channel Response :: {} "+response.asString());
 		Assert.assertEquals(response.statusCode(), 200);
@@ -97,7 +98,7 @@ public class ChannelCrudStepDefTest<T> extends ApiClient{
 
 	@Then("^I Validate if the Channel is archived successfully via \"([^\"]*)\" method$")
 	public void i_Validate_if_the_Channel_is_archived_successfully_via_method(String method) throws Throwable {
-		response = makeGetRequest(method);
+		response = apiClient.makeGetRequest(method);
 		jsonPath = response.jsonPath();
 		ApiLogger.logInfo("List Channel Response after archiving :: {} "+response.asString());
 		channelsList =   jsonPath.getList("channels");
