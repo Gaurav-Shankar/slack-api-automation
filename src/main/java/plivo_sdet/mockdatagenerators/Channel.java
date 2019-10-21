@@ -6,7 +6,6 @@ public class Channel {
 	private boolean validate;
 	private String channel;
 
-
 	public Channel(String channelName) {
 		this.name = channelName;
 		this.validate = true;
@@ -35,5 +34,4 @@ public class Channel {
 	public void setChannel(String channel) {
 		this.channel = channel;
 	}
-	
 }
