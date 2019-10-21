@@ -12,12 +12,10 @@ public class ApiLogger extends FileAppender {
 	private static Logger logger = null;
 
 	static {
-		synchronized (ApiLogger.class) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
 			System.setProperty("current.date.time", dateFormat.format(new Date()));
 			PropertyConfigurator.configure("src/test/resources/log4j.properties");
 			logger = Logger.getLogger("plivo");
-		}
 	}
 
 	public static void logInfo(String msg) {
